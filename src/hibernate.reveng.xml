@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.org/dtd/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-schema="phonedata" match-name=".*"/>
+  <table-filter match-catalog="phonedata" match-name="account"/>
+  <table-filter match-catalog="phonedata" match-name="bill"/>
+  <table-filter match-catalog="phonedata" match-name="bill_has_product_has_size"/>
+  <table-filter match-catalog="phonedata" match-name="comment"/>
+  <table-filter match-catalog="phonedata" match-name="commune"/>
+  <table-filter match-catalog="phonedata" match-name="district"/>
+  <table-filter match-catalog="phonedata" match-name="product"/>
+  <table-filter match-catalog="phonedata" match-name="product_has_size"/>
+  <table-filter match-catalog="phonedata" match-name="session"/>
+  <table-filter match-catalog="phonedata" match-name="size"/>
+  <table-filter match-catalog="phonedata" match-name="trademark"/>
+  <table-filter match-catalog="phonedata" match-name="ward"/>
+</hibernate-reverse-engineering>

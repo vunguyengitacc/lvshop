@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.password">733244abscj</property>
+        <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1:3306/phonedata</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="current_session_context_class">thread</property>
+        <property name="hibernate.search.autoregister_listeners">true</property>
+        <property name="hibernate.validator.apply_to_ddl">false</property>
+        <property name="hibernate.connection.useUnicode">true</property>
+		<property name="hibernate.connection.characterEncoding">UTF-8</property>
+		<property name="hibernate.connection.charSet">UTF-8</property>
+		
+        <mapping class="javaweb.Entity.Product"/>
+        <mapping class="javaweb.Entity.Session"/>
+        <mapping class="javaweb.Entity.Size"/>
+        <mapping class="javaweb.Entity.Trademark"/>
+        <mapping class="javaweb.Entity.District"/>
+        <mapping class="javaweb.Entity.Commune"/>
+        <mapping class="javaweb.Entity.Account"/>
+        <mapping class="javaweb.Entity.Comment"/>
+        <mapping class="javaweb.Entity.Bill"/>
+        <mapping class="javaweb.Entity.ProductHasSize"/>
+        <mapping class="javaweb.Entity.BillHasProductHasSize"/>
+        <mapping class="javaweb.Entity.Ward"/>
+    </session-factory>
+</hibernate-configuration>
