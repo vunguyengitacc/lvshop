@@ -316,16 +316,19 @@
 	<script src="<c:url value="/template/Home/js/main.js"/>"></script>
 	<script type="text/javascript">
 		function changeHandler(x, y, z, t){
-			if(x < 0){
+			
+			if(x < 0){				
+				$("#contentForCartAction").html("Bạn nên nhập 1 số nguyên dương");
+				$("#modalCart").modal('show');
 				return;
 			}
 			$.ajax({
 				url: "/lvshop/trang-chu/api/gio-hang?idSize="+y+"&idSanPham="+z+"&soLuong=0&thayDoiSoLuong="+x,
 				type: 'PUT', 
 				success: function(response){
-					var objJson = JSON.parse(response);
-					if(objJson.status == "2"){
-						$("#contentForCartAction").html("Cập nhật thất bại");
+					var objJson = JSON.parse(response);					
+					if(objJson["status "] == 2){
+						$("#contentForCartAction").html("Không đủ hàng");
 						$("#modalCart").modal('show');
 					}
 					else{
@@ -336,8 +339,13 @@
 					}
 				},
 				error: function(error){
-					$("#contentForCartAction").html("Đã xảy ra lỗi");
-					$("#modalCart").modal('show');
+					if(error.status == 400){
+						$("#contentForCartAction").html("Bạn nên nhập 1 số nguyên dương");
+						$("#modalCart").modal('show');
+					}else{
+						$("#contentForCartAction").html("Lỗi đường truyền");
+						$("#modalCart").modal('show');
+					}
 				}
 			})
 		}

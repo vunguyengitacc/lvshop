@@ -253,7 +253,7 @@ tbody tr:hover {
 										style="display: flex; justify-content: center; color: #a5dc86;">Cập
 										nhật thành công</h1>
 								</c:when>
-								<c:when test="${resultCode == 2 }">
+								<c:otherwise>
 									<div class="swal2-icon swal2-error swal2-animate-error-icon"
 										style="display: flex;">
 										<span class="swal2-x-mark"><span
@@ -263,20 +263,6 @@ tbody tr:hover {
 									<h1
 										style="display: flex; justify-content: center; color: #f27474;">Thao
 										tác thất bại</h1>
-								</c:when>
-								<c:otherwise>
-									<div class="swal2-icon swal2-error swal2-animate-error-icon"
-										style="display: flex;">
-										<span class="swal2-x-mark"><span
-											class="swal2-x-mark-line-left"></span><span
-											class="swal2-x-mark-line-right">
-									</div>
-									<h1
-										style="display: flex; justify-content: center; color: #f27474;">Cập nhật thất bại</h1>
-									<br>
-									<h5 style="display: flex; justify-content: center;">Xin
-										lỗi vì sự bất tiện này!</h5>
-									<h5 style="display: flex; justify-content: center;">Vui lòng xem lại dữ liệu nhập</h5>
 								</c:otherwise>
 							</c:choose>
 						</c:if>

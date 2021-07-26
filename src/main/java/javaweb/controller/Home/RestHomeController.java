@@ -65,47 +65,47 @@ public class RestHomeController {
 		item.setSize(size.getByID(idSize));
 		item.setPro(pro.getByID(id, true));
 		int maxAmount = detail.getAmount(item.getPro().getId(), item.getSize().getId());// lấy số lượng sản phẩm
-		if(newAmount < 0)
-			return "{ \"status \" : 2 }";// status 2: không đủ hàng
-		if (maxAmount < amount || maxAmount < newAmount)
-			return "{ \"status \" : 2 }";// status 2: không đủ hàng
-		if (newAmount == 0)// do chỉ chấp nhận 1 trong 2 giá trị amount hoặc newAmount và ưu tiên amount
+		if(newAmount < 0) //1
+			return "{ \"status \" : 2 }";// status 2: không đủ hàng  //2
+		if (maxAmount < amount || maxAmount < newAmount) // 3,4
+			return "{ \"status \" : 2 }";// status 2: không đủ hàng    //5
+		if (newAmount == 0)// do chỉ chấp nhận 1 trong 2 giá trị amount hoặc newAmount và ưu tiên amount   //6
 		{
-			item.setAmount(amount);
+			item.setAmount(amount);//7
 		} else {
-			item.setAmount(newAmount);
+			item.setAmount(newAmount);//8
 		}
 		BigDecimal amountDecimal = new BigDecimal(item.getAmount());
-		if (item.getPro().getPromotionPrice().compareTo(BigDecimal.ZERO) == 0) {
-			String value = item.getPro().getPrice().multiply(amountDecimal).toString();
+		if (item.getPro().getPromotionPrice().compareTo(BigDecimal.ZERO) == 0) {  //9
+			String value = item.getPro().getPrice().multiply(amountDecimal).toString();  //10
 			item.setValue(value);
 		} else {
-			String value = item.getPro().getPromotionPrice().multiply(amountDecimal).toString();
+			String value = item.getPro().getPromotionPrice().multiply(amountDecimal).toString();  //11
 			item.setValue(value);
 		}
 		String newItemValue = null;// tra ve gia tri moi cho vat pham trong gio hang trong truong hop can cap nhat
-		if (lst == null) {
-			lst = new Cart(item, item.getValue());
+		if (lst == null) {  //12
+			lst = new Cart(item, item.getValue());  //13
 		} else {
 			List<CartItem> stLst = lst.getLstItem().stream().filter(
 					x -> x.getPro().getId() == item.getPro().getId() && x.getSize().getId() == item.getSize().getId())
 					.collect(Collectors.toList());
-			if (stLst.size() > 0) {
+			if (stLst.size() > 0) {   //14 	
 				CartItem stItem = stLst.get(0);
 				lst.removeItem(stItem);
-				if (newAmount != 0)
-					stItem.setAmount(newAmount);
+				if (newAmount != 0)  //15
+					stItem.setAmount(newAmount);//16
 				else
-					stItem.addAmount(item.getAmount());
+					stItem.addAmount(item.getAmount());  //17
 				stItem.refreshValue();
 				newItemValue = stItem.getValue().toString();
 				lst.addLstItem(stItem, stItem.getValue());
 			} else
-				lst.addLstItem(item, item.getValue());
+				lst.addLstItem(item, item.getValue());//18
 		}
 		session.setAttribute("cart", lst);
 		return "{\"totalItem\": " + lst.getLstItem().size() + ", \"totalValue\": " + lst.getTotalValue().setScale(2)
-				+ ", \"newItemValue\": " + newItemValue + ", \"status \" : 1}";
+				+ ", \"newItemValue\": " + newItemValue + ", \"status \" : 1}";  //19
 	}
 
 	@DeleteMapping("/gio-hang/item")
@@ -142,23 +142,24 @@ public class RestHomeController {
 			@RequestParam("email") String email, @RequestParam("gioiTinh") int gender,
 			@RequestParam("soDienThoai") String phone) {
 		UserSession userSs = (UserSession) session.getAttribute("UserSession");
-		if (userSs == null)
-			return "{ \"status\": 3}";// chưa đăng nhập
-		if (userSs.getAccInfor().getStatus() == 0) {
-			session.setAttribute("UserSession", null);
+		if (userSs == null) //1
+			return "{ \"status\": 3}";// chưa đăng nhập //2 
+		if (userSs.getAccInfor().getStatus() == 0) { //3
+			session.setAttribute("UserSession", null);//4
 			return "{ \"status\": 4}";// tài khoản bị admin khoá trong lúc đăng nhập
 		}
 		javaweb.Entity.Account testEmail = acc.findByEmail(email);
-		if (testEmail != null && !testEmail.getUsername().equals(userSs.getAccInfor().getUsername()))
-			return "{ \"status\": 5}";// cập nhật thất bại
-		if (name == "" && email == "" && phone == "")
-			return "{ \"status\": 2}";// cập nhật thất bại
-		if (acc.putAccountInfor(userSs.getAccInfor().getUsername(), name, email, phone, gender) == true) {
-			userSs.setAccInfor(acc.getByUsername(userSs.getAccInfor().getUsername(), false));
+		if (testEmail != null && !testEmail.getUsername().equals(userSs.getAccInfor().getUsername())) //5
+			return "{ \"status\": 5}";// cập nhật thất bại	//6
+		if (name == "" && email == "" && phone == "")//7
+			return "{ \"status\": 2}";// cập nhật thất bại//8
+		if (acc.putAccountInfor(userSs.getAccInfor().getUsername(), name, email, phone, gender) == true) {//9
+			userSs.setAccInfor(acc.getByUsername(userSs.getAccInfor().getUsername(), false));//10
 			session.setAttribute("UserSession", userSs);// cập nhật lại account trong session
 			return "{ \"status\": 1}";// cập nhật thành công
 		} else
-			return "{ \"status\": 2}";
+			return "{ \"status\": 2}";//11
+		//12 là kết thúc
 	}
 
 	@PutMapping("/tai-khoan/doi-mat-khau")

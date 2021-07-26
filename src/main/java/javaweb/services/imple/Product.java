@@ -72,7 +72,7 @@ public class Product implements javaweb.services.inter.Product {
 		if (name != "")
 			newPro.setName(name);
 		BigDecimal validatePrice = BigDecimal.ZERO;
-		if (originalPrice.compareTo(validatePrice) < 0 || price.compareTo(validatePrice) < 0
+		if (originalPrice.compareTo(validatePrice) <= 0 || price.compareTo(validatePrice) <= 0
 				|| promotionPrice.compareTo(validatePrice) < 0)
 			return -1;
 		else if (originalPrice.compareTo(price) > 0 || price.compareTo(promotionPrice) < 0)
@@ -109,7 +109,7 @@ public class Product implements javaweb.services.inter.Product {
 		BigDecimal validatePrice = BigDecimal.ZERO;
 		if (originalPrice.compareTo(validatePrice) > 0 && price.compareTo(validatePrice) > 0
 				&& promotionPrice.compareTo(validatePrice) >= 0 && originalPrice.compareTo(price) < 0
-				&& price.compareTo(promotionPrice) > 0) {
+				&& price.compareTo(promotionPrice) > 0 ) {
 			updatedPro.setOriginalPrice(originalPrice);
 			updatedPro.setPrice(price);
 			updatedPro.setPromotionPrice(promotionPrice);

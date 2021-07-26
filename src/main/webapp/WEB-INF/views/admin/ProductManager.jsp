@@ -342,7 +342,7 @@
 													<div class="form-group">
 														<label>Size</label>
 														<div class="input-group">
-															<select class="form-control" id="selectColor"
+															<select class="form-control" id="selectSize"
 																onchange="changeAmountHandler(this.value)">
 																<option value="1|0">Chọn size</option>
 																<c:if test="${productDetail != null }">
@@ -357,7 +357,7 @@
 													<div class="form-group">
 														<label>Số lượng</label>
 														<div class="input-group">
-															<input type="number" class="form-control"
+															<input type="number" class="form-control" 
 																id="sizeAmount" name="soLuongSize" value="0"
 																data-toggle="tooltip" data-placement="top"
 																title="Bạn nên nhập một số nguyên dương"> <input
@@ -521,7 +521,7 @@
 	<script
 		src="<c:url value="/template/Admin/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"/>"></script>
 	<script src="<c:url value="/template/Admin/assets/js/sleek.js"/>"></script>
-
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script type="text/javascript">
 		function changeAmountHandler(x) {
 			var lstValue = x.split('|');
@@ -535,9 +535,9 @@
 		function addSizeHandler() {
 			var sizeName = $("#newSizeName");
 			var idProduct = $("#idProduct");
-			var reGex = /^[0-9]+$/gi;
-			if(reGex.test(sizeName.val())){
-				$("#contentForCartAction").html("Chỉ được nhập kí tự chữ");
+			var reGex = /^[a-zA-Z]{1,10}$/gi;
+			if(!reGex.test(sizeName.val())){
+				$("#contentForCartAction").html("Vui lòng nhập đúng định dạng");
 				$("#modalCart").modal('show');
 				return;
 			}
@@ -564,7 +564,7 @@
 					else{
 						$("#contentForCartAction").html("Cập nhật thành công");
 						$("#modalCart").modal('show');
-						$('#selectColor').append($('<option>', {value:objJson.id+"|0", text:objJson.name}));
+						$('#selectSize').append($('<option>', {value:objJson.id+"|0", text:objJson.name}));
 					}
 				},
 				error:(error)=>{
@@ -578,21 +578,27 @@
 		
 		function addTrademarkHandler(){
 			var tradeName = $("#newTrademark");
+			if(tradeName.val() == ""){				
+				$("#contentForCartAction").html("Vui lòng nhập tên thương hiệu");
+				$("#modalCart").modal('show');
+				return;
+			}
 			$.ajax({
 				url: "/lvshop/admin/api/thuong-hieu?tenThuongHieuMoi="+tradeName.val(),
 				type: 'POST',
 				success:(response)=>{
 					var objJson = JSON.parse(response);
+					console.log(objJson.status)
 					if(objJson.status == 1){
 						$("#contentForCartAction").html("Cập nhật thành công, nhưng đã xảy ra lỗi ở server| Vui lòng tải lại trang");
 						$("#modalCart").modal('show');
 					}
-					if(objJson.status == 2){
+					else if(objJson.status == 2){
 						$("#contentForCartAction").html("Cập nhật thất bại");
 						$("#modalCart").modal('show');
 						
 					}
-					if(objJson.status == 3){
+					else if(objJson.status == 3){
 						$("#contentForCartAction").html("Lỗi! Bạn chưa đăng nhập");
 						$("#modalCart").modal('show');
 						setTimeout(()=>$("#bodyHTML").click(reloadPage()),1000);

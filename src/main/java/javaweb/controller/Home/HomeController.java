@@ -62,7 +62,7 @@ public class HomeController {
 		if (lst == null)
 			lst = new Cart();// neu khong ton tai -> session chua duoc tao field cart
 		List<String> lstField = new ArrayList<String>(
-				List.of("productHasColors", "productHasColors.productHasColorHasBills", "trademark"));
+				List.of("productHasSizes", "productHasSizes.billHasProductHasSizes", "trademark"));
 		List<javaweb.Entity.Product> lstPro = pro.getAllFetch(lstField);
 		lstPro.sort((a, b) -> b.getProductHasSizes().stream().map((item) -> item.getBillHasProductHasSizes().size())
 				.reduce(0, Integer::sum).compareTo(a.getProductHasSizes().stream()
@@ -272,16 +272,16 @@ public class HomeController {
 
 	@PostMapping("/trang-ca-nhan/cap-nhat-anh")
 	public String updateAvatar(Model model, HttpSession session, @RequestParam("avatar") MultipartFile file) {
-		UserSession userSs = (UserSession) session.getAttribute("UserSession");
-		if (userSs == null)
-			return "redirect:/trang-chu/";
+		UserSession userSs = (UserSession) session.getAttribute("UserSession");  
+		if (userSs == null)  //1
+			return "redirect:/trang-chu/";  //2
 		try {
-			String filename = null;
+			String filename = null;    
 			filename = file.getOriginalFilename();
 			String realPath = session.getServletContext().getRealPath("/WEB-INF/webImages/user/");
 			File repository = new File(realPath);
-			if (!repository.exists())
-				repository.mkdirs();
+			if (!repository.exists())//3
+				repository.mkdirs();//4
 			byte[] content = file.getBytes();
 			BufferedOutputStream writer = new BufferedOutputStream(new FileOutputStream(realPath + filename));
 			writer.write(content);
@@ -294,7 +294,7 @@ public class HomeController {
 			System.out.println("BUG: ERROR");
 			model.addAttribute("message", "Lỗi hệ thống! chưa thể cập nhật được");
 		}
-		return "redirect:/trang-chu/trang-ca-nhan";
+		return "redirect:/trang-chu/trang-ca-nhan";//5
 	}
 
 }

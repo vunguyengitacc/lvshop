@@ -43,6 +43,7 @@
 	type="text/css">
 <link rel="stylesheet"
 	href="<c:url value="/template/Home/css/style.css"/>" type="text/css">
+
 </head>
 <style>
 	.zoomImg{
@@ -260,81 +261,9 @@
 						</div>
 					</div>
 					<div class="col-lg-12">
-						<div class="customer-review-option">							
-							<h4>${lstComment.size() }&nbsp;bình&nbsp;luận</h4>
-							<div class="comment-option" id="scrollBox"
-								style="height: 65vh; overflow-y: scroll;">
-								<c:forEach var="item" items="${lstComment }">
-
-									<div class="co-item">
-										<div class="avatar-pic">
-										
-										</div>
-										<div class="avatar-text">
-											<c:choose>
-												<c:when test="${item.status==1 }">
-													<h5>
-														${item.account.username } <span>${item.createDate }</span>
-													</h5>
-													<div class="at-reply"
-														style="height: 12vh; overflow: hidden;">${item.content }</div>
-
-												</c:when>
-												<c:otherwise>
-													<h5>
-														${item.account.username } <span>${item.createDate }</span>
-													</h5>
-													<div class="at-reply"
-														style="height: 12vh; overflow: hidden;">
-														<i>Bình luận này đã bị ẩn đi</i>
-													</div>
-													
-												</c:otherwise>
-											</c:choose>
-
-											<c:if test="${sessionScope.UserSession.accInfor.type == 0 }">
-												<c:choose>
-													<c:when test="${item.status==1 }">
-
-														<a href="/lvshop/admin/binh-luan/xoa?idComment=${item.id }"
-															class="btn btn-danger"
-															style="font-size: .6rem">ẨN BÌNH
-															LUẬN</a>
-													</c:when>
-													<c:otherwise>
-														<a href="/lvshop/admin/binh-luan/xoa?idComment=${item.id }"
-															class="btn btn-success"
-															style="font-size: .6rem">HIỆN BÌNH
-															LUẬN</a>
-													</c:otherwise>
-												</c:choose>
-											</c:if>
-										</div>
-									</div>
-
-								</c:forEach>
-							</div>
-							<div class="leave-comment">
-								<h4>Để lại đánh giá về sản phẩm</h4>
-								<form action="/lvshop/trang-chu/${pro.name }/binh-luan"
-									class="comment-form" method="post">
-									<div class="row">
-										<div class="col-lg-12">
-											<textarea name="contentCmt"
-												placeholder="Nhập tối thiểu 10 kí tự..." minlength="10" maxlength="50"></textarea>
-											<input type="hidden" name="id" value="${pro.id }">
-											<c:choose>
-												<c:when test="${sessionScope.UserSession == null }">
-													<button type="button" class="site-btn">BẠN CẦN ĐĂNG NHẬP ĐỂ GỬI ĐÁNH GIÁ</button>
-												</c:when>
-												<c:otherwise>
-													<button type="submit" class="site-btn">GỬI ĐÁNH GIÁ</button>
-												</c:otherwise>
-											</c:choose>
-										</div>
-									</div>
-								</form>
-							</div>
+						<div class="customer-review-option">														
+							<div class="fb-comments" data-href="http://localhost:8080/lvshop/trang-chu/san-pham?id=${pro.id }" data-width="100%" data-numposts="5"></div>
+							
 						</div>
 					</div>
 
@@ -440,6 +369,8 @@
 	<!-- Footer Section End -->
 
 	<!-- Js Plugins -->
+		<div id="fb-root"></div>
+	<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v11.0" nonce="iDQWa8vX"></script>
 	<script src="<c:url value="/template/Home/js/jquery-3.3.1.min.js"/>"></script>
 	<script src="<c:url value="/template/Home/js/bootstrap.min.js"/>"></script>
 	<script src="<c:url value="/template/Home/js/jquery-ui.min.js"/>"></script>

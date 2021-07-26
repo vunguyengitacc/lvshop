@@ -219,31 +219,26 @@ public class AdminController {
 			@RequestParam("giaBan") String price, @RequestParam("giaKhuyenMai") String promotionPrice,
 			@RequestParam("idThuongHieu") int idTrade, @RequestParam("moTa") String description,
 			@RequestParam("anhMinhHoa") MultipartFile file) {
-		if (checkAdminSession(session) == false)
-			return "redirect:/trang-chu/";// chưa đăng nhập
+		if (checkAdminSession(session) == false) // 1
+			return "redirect:/trang-chu/";// chưa đăng nhập //2
 		try {
 			String filename = null;
-			if (file.getSize() != 0) {
-				ServletContext context = session.getServletContext();
+			if (file.getSize() != 0) { //3
+				ServletContext context = session.getServletContext();//4
 				String path = context.getRealPath("/WEB-INF/webImages/");
-				filename = file.getOriginalFilename();
-				File uploadRootDir = new File(path);
-
-				if (!uploadRootDir.exists()) {
-					uploadRootDir.mkdirs();
-				}
+				filename = file.getOriginalFilename();				
 				byte[] content = file.getBytes();
 				BufferedOutputStream writer = new BufferedOutputStream(new FileOutputStream(new File(path + filename)));
 				writer.write(content);
 				writer.flush();
 				writer.close();
 			}
-			if (filename == null)
-				filename = "default.png";
-			if(promotionPrice.isEmpty())
-				promotionPrice = new String("0");
-			if(originalPrice == "" || price == "") {
-				model.addAttribute("resultCode", 2);
+			if (filename == null) //5
+				filename = "default.png";//6
+			if(promotionPrice.isEmpty())//7
+				promotionPrice = new String("0");//8
+			if(originalPrice == "" || price == "") {//9,10
+				model.addAttribute("resultCode", 2);//11
 				return "admin/Result";// thất bại
 			}
 			int rsPro = pro.postNew(name, new BigDecimal(originalPrice).abs(), new BigDecimal(price).abs(),
@@ -260,7 +255,7 @@ public class AdminController {
 			model.addAttribute("resultCode", 4);
 			return "admin/Result";// lỗi truy xuất
 		}
-
+		
 	}
 
 	@PostMapping("/danh-sach-san-pham/chi-tiet-san-pham/cap-nhat")
@@ -270,41 +265,36 @@ public class AdminController {
 			@RequestParam("soLuongSize") String amountSize, @RequestParam("idSize") int idSize,
 			@RequestParam("idThuongHieu") int idTrade, @RequestParam("moTa") String description,
 			@RequestParam("anhMinhHoa") MultipartFile file) {
-		if (checkAdminSession(session) == false)
-			return "redirect:/trang-chu/";// chưa đăng nhập
+		if (checkAdminSession(session) == false) //1
+			return "redirect:/trang-chu/";// chưa đăng nhập   //2
 		try {
-			String filename = null;
-			if (file.getSize() != 0) {
-				ServletContext context = session.getServletContext();
+			String filename = null; 
+			if (file.getSize() != 0) { //3
+				ServletContext context = session.getServletContext(); //4
 				String path = context.getRealPath("/WEB-INF/webImages/");
-				filename = file.getOriginalFilename();
-				File uploadRootDir = new File(path);
-
-				if (!uploadRootDir.exists()) {
-					uploadRootDir.mkdirs();
-				}
+				filename = file.getOriginalFilename();				
 				byte[] content = file.getBytes();
 				BufferedOutputStream writer = new BufferedOutputStream(new FileOutputStream(new File(path + filename)));
 				writer.write(content);
 				writer.flush();
 				writer.close();
 			}
-			if (filename == null)
-				filename = "nochange";
-			if(promotionPrice.isEmpty())
-				promotionPrice = new String("0");
-			if(originalPrice == "" || price == "") {
-				model.addAttribute("resultCode", 2);
+			if (filename == null)//5
+				filename = "nochange";//6
+			if(promotionPrice.isEmpty())//7
+				promotionPrice = new String("0");//8
+			if(originalPrice == "" || price == "") {//9,10
+				model.addAttribute("resultCode", 2);//11
 				return "admin/Result";// thất bại
 			}
 			boolean rsProduct = pro.putByID(id, name, new BigDecimal(originalPrice).abs(), new BigDecimal(price).abs(),
 					new BigDecimal(promotionPrice).abs(), "/resources/" + filename, description, idTrade);
 			boolean rsSize = pro_size.put(id, idSize, Math.abs(Integer.parseInt(amountSize)));
-			if (rsProduct || rsSize) {
-				model.addAttribute("resultCode", 1);
+			if (rsProduct || rsSize) {//12 ,13
+				model.addAttribute("resultCode", 1);//14
 				return "admin/Result";// thành công
 			} else {
-				model.addAttribute("resultCode", 2);
+				model.addAttribute("resultCode", 2);//15
 				return "admin/Result";// thất bại
 			}
 		} catch (Exception e) {
@@ -312,7 +302,7 @@ public class AdminController {
 			model.addAttribute("resultCode", 4);
 			return "admin/Result";// lỗi truy xuất
 		}
-
+			//16
 	}
 
 	@GetMapping("/binh-luan/xoa")

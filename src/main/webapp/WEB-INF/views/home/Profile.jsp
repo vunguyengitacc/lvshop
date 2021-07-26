@@ -330,7 +330,7 @@
 										value="${sessionScope.UserSession.accInfor.name }">
 								</div>
 								<div class="form-group">
-									<label for="url">Email</label> <input type="text"
+									<label for="url">Email</label> <input type="email"
 										class="form-control" id="email"
 										placeholder="Chúng tôi có thể liên lạc cho bạn lúc cần"
 										value="${sessionScope.UserSession.accInfor.email }"
@@ -529,7 +529,7 @@
 			var b = $("#email");
 			var c = $("#phoneNumber");
 			var d = $("#gender");
-			var regexForEmail = /^[.a-zA-Z0-9]+@(gmail|[a-zA-z]+).com$/g;
+			var regexForEmail = /^[.a-zA-Z0-9]{6,30}@(gmail|[a-zA-z0-9]{1,}).com$/g;
 			var regexForPhone = /^(0|\+84)[0-9]{9}$/g;
 			if(!regexForEmail.test(b.val())||!regexForPhone.test(c.val())){
 				$("#contentForCartAction").html("Vui lòng nhập đúng định dạng");
@@ -537,7 +537,7 @@
 				return;
 			}
 			if(a.val()==""){
-				$("#contentForCartAction").html("Vui lòng nhập day du thong tin");
+				$("#contentForCartAction").html("Vui lòng nhập đầy đủ thông tin");
 				$("#modalCart").modal('show');
 				return;
 			}
@@ -546,24 +546,28 @@
 				type: 'PUT',
 				success: (response)=>{
 					var objJson = JSON.parse(response);
+					console.log(objJson);
 					if(objJson.status == 1){
-						$("#contentForCartAction").html("Cập nhật thành công!");
+						$("#contentForCartAction").html("Cập nhật thành công");
 						$("#modalCart").modal('show');
-					} else if(objJson.status == 2){
+					} 
+					if(objJson.status == 2){
 						$("#contentForCartAction").html("Cập nhật thất bại! Vui lòng kiểm tra lại định dạng input");
 						$("#modalCart").modal('show');
-						
-					} else if(objJson.status == 3){
+					} 
+					if(objJson.status == 3){
 						$("#contentForCartAction").html("Lỗi! Bạn chưa đăng nhập");
 						$("#modalCart").modal('show');
 						setTimeout(()=>$("#bodyHTML").click(reloadPage()),1500);
-					} else if (objJson.status == "4") {
+					}
+					if (objJson.status == 4) {
 						$("#contentForCartAction").html("Tài khoản của bạn đã bị khoá! Thao tác thất bại");
-						$("#exampleModalCenter").modal('show');
+						$("#modalCart").modal('show');						
 						setTimeout(()=>$("#bodyHTML").click(reloadPage()),1500);
-					} else if (objJson.status == "5") {
+					}
+					if (objJson.status == 5) {						
 						$("#contentForCartAction").html("Vui lòng thử một địa chỉ mail khác");
-						$("#exampleModalCenter").modal('show');
+						$("#modalCart").modal('show');
 					}
 				},
 				error: (error)=>{

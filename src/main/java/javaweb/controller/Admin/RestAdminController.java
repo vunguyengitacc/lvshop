@@ -61,21 +61,21 @@ public class RestAdminController {
 	public String addColor(Model model, HttpSession session, @RequestParam("tenSizeMoi") String newSizeName,
 			@RequestParam("idSanPham") String idProduct) {
 		UserSession userSs = (UserSession) session.getAttribute("UserSession");
-		if (userSs == null)
-			return "{ \"status\": 3}";// chua dang nhap
-		int idProductInt = 0;
+		if (userSs == null) // 1
+			return "{ \"status\": 3}";// chưa đăng nhập  //2
+		int idProductInt = 0; 
 		try {
 			idProductInt = Integer.parseInt(idProduct);
 		}
 		catch (Exception e) {
 			return "{ \"status\": 2}";// cap nhat khong thanh cong
 		}
-		if (newSizeName == "")
-			return "{ \"status\": 2}";// cap nhat khong thanh cong
+		if (newSizeName == "") //3
+			return "{ \"status\": 2}";// cap nhat khong thanh cong   //4
 		javaweb.Entity.Size newSize = size.postNew(newSizeName);
 		boolean rsPro_Size = pro_size.postNew(idProductInt, newSize.getId(), 0);
-		if (newSize != null && rsPro_Size) {
-			ObjectMapper mapper = new ObjectMapper();
+		if (newSize != null && rsPro_Size) { //5
+			ObjectMapper mapper = new ObjectMapper();  //6
 			try {
 				String rs = mapper.writeValueAsString(newSize);
 				return rs;// Cập nhật thành công
@@ -84,7 +84,7 @@ public class RestAdminController {
 				return "{ \"status\": 1}";// cap nhat thanh cong
 			}
 		} else
-			return "{ \"status\": 2}";// cap nhat khong thanh cong
+			return "{ \"status\": 2}";// cap nhat khong thanh cong   ///7
 	}
 
 	@PostMapping(value = "/thuong-hieu")
@@ -92,22 +92,22 @@ public class RestAdminController {
 	public String addTrademark(Model model, HttpSession session,
 			@RequestParam("tenThuongHieuMoi") String newTradeName) {
 		UserSession userSs = (UserSession) session.getAttribute("UserSession");
-		if (userSs == null)
-			return "{ \"status\": 3}";// chua dang nhap
-		if (newTradeName == "")
-			return "{ \"status\": 2}";// cap nhat khong thanh cong
-		Trademark newTrade = trade.postNew(newTradeName);
-		if (newTrade != null) {
-			ObjectMapper mapper = new ObjectMapper();
+		if (userSs == null)  
+			return "{ \"status\": 3}";// chua dang nhap   
+		if (newTradeName == "")  
+			return "{ \"status\": 2}";// cap nhat khong thanh cong  
+		Trademark newTrade = trade.postNew(newTradeName);   
+		if (newTrade != null) {   
+			ObjectMapper mapper = new ObjectMapper();    
 			try {
 				String rs = mapper.writeValueAsString(newTrade);
 				return rs;// cap nhat thanh cong
 			} catch (JsonProcessingException e) {
 				e.printStackTrace();
 				return "{ \"status\": 1}";// cap nhat thanh cong
-			}
-		} else
-			return "{ \"status\": 2}";// cap nhat khong thanh cong
+			} 
+		} else  
+			return "{ \"status\": 2}";// cap nhat khong thanh cong  
 	}
 
 
@@ -118,16 +118,16 @@ public class RestAdminController {
 	@ResponseBody
 	public String deleteProduct(Model model, HttpSession session, @RequestParam("idSanPham") int id) {
 		UserSession userSs = (UserSession) session.getAttribute("UserSession");
-		if (userSs == null)
-			return "{ \"status\": 3}";// chua dang nhap
-		try {
-			if (pro_size.deleteMany(id) == true) {
-				if (pro.deleteByID(id) == true) {
-					return "{ \"status\": 1}";// cap nhat thanh cong
+		if (userSs == null)  //1
+			return "{ \"status\": 3}";// chua dang nhap   //2
+		try { 
+			if (pro_size.deleteMany(id) == true) {  //3
+				if (pro.deleteByID(id) == true) { //4
+					return "{ \"status\": 1}";// cap nhat thanh cong  //5
 				} else
-					return "{ \"status\": 2}";//cập nhật thất bại 
+					return "{ \"status\": 2}";//cập nhật thất bại   //6
 			} else
-				return "{ \"status\": 2}";//cập nhật thất bại
+				return "{ \"status\": 2}";//cập nhật thất bại  //7
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "{ \"status\": 4}";// lỗi

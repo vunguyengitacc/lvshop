@@ -39,8 +39,7 @@ public class TradeMark implements javaweb.services.inter.TradeMark {
 	public Trademark postNew(String name) {
 		Session ss = factory.getSession();
 		ss.beginTransaction();
-		Trademark temp = (Trademark) ss.createCriteria(Trademark.class).add(Restrictions.eq("name", name))
-				.uniqueResult();
+		Trademark temp = (Trademark) ss.createCriteria(Trademark.class).add(Restrictions.eq("name", name)).uniqueResult();		
 		if (temp != null)
 			return null;
 		temp = new Trademark();

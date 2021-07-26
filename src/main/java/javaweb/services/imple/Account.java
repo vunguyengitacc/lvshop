@@ -57,17 +57,17 @@ public class Account implements javaweb.services.inter.Account {
 		ss.beginTransaction();
 		javaweb.Entity.Account rs = (javaweb.Entity.Account) ss.createCriteria(javaweb.Entity.Account.class)
 				.add(Restrictions.eq("username", username)).uniqueResult();
-		if (rs == null)
-			return false;
-		if (name != "" && name != rs.getName())
-			rs.setName(name);
-		if (email != "" && email != rs.getEmail())
-			rs.setEmail(email);
-		if (phone != "" && email != rs.getPhone())
-			rs.setPhone(phone);
-		if (gender != rs.getGender())
-			rs.setGender(gender);
-		ss.save(rs); 
+		if (rs == null)//11
+			return false;//12
+		if (name != "" && name != rs.getName())//13
+			rs.setName(name);//14
+		if (email != "" && email != rs.getEmail())//15
+			rs.setEmail(email);//16
+		if (phone != "" && email != rs.getPhone())//17
+			rs.setPhone(phone);//18
+		if (gender != rs.getGender())//19
+			rs.setGender(gender);//20
+		ss.save(rs); //21
 		ss.getTransaction().commit();
 		ss.close();
 		return true;
